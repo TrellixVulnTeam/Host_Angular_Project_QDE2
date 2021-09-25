@@ -1,0 +1,26 @@
+#appName{
+    font-family: 'Kaushan Script', cursive;
+    text-shadow: 5px 5px 4px grey;
+    margin-top: 35%;
+    color: beige;
+}
+
+#accountIcon{
+    font-size: 1000%;
+    margin-left: 30%;
+    filter: drop-shadow(5px 10px 3px slategrey);
+}
+
+.border-bottom-danger{
+    border-bottom: 3px red solid;
+}
+
+@media screen and (max-width:576px) {
+    #appName{
+        font-family: "Trirong", serif;
+        text-shadow: 5px 5px 7px grey;        
+        margin-top: 25%;
+        margin-bottom: 15%;
+        color: rgb(43, 42, 42);
+    }
+}

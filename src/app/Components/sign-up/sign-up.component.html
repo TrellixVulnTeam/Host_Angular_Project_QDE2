@@ -1,0 +1,211 @@
+<app-modal #modal [modalHeading]='responseMessages.sucess' [modalContent]='diplayMessages.redirectRequest'
+    [okayButtonRedirectLink]='appURLs.login'>
+</app-modal>
+
+<div id="signUpComponent" class="row vh-100 ">
+
+    <div class=" d-none d-md-inline-block col-md-8 bg-dark bg-gradient d-flex align-items-center text-center">
+        <div id="appName" class="display-4 ">SpringBoot Aws Test Front</div>
+    </div>
+
+    <div id="SignUpFormDiv" class=" d-block d-md-block col-10 col-md-3  mx-auto my-md-auto ">
+        <div class=" d-inline-block d-md-none col-12 text-center">
+            <div id="appName" class="display-5 ">SpringBoot Front</div>
+        </div>
+
+        <mat-icon id="accountIcon" class=" text-black">person_add_alt</mat-icon>
+        <form [formGroup]="SignUpForm" class="mx-auto">
+
+
+
+            <div class="row mb-3">
+                <button
+                    class="shadow-bottom  col-12 rounded rounded-pill row my-2 bg-secondary bg-gradient text-light btn"
+                    (click)="isCredentialsFormCollapsed = !isCredentialsFormCollapsed;
+                    isBillingAddresssFormCollapsed=true;
+                    isShippingAddressFormCollpased =true"
+                    [ngClass]="{' border-bottom-danger ':SignUpForm.controls.firstName.invalid||SignUpForm.controls.lastName.invalid ||
+                                                                                 SignUpForm.controls.email.invalid||  SignUpForm.controls.password.invalid  }">
+                    Credentials
+                </button>
+            </div>
+
+            <div id="credentials-form"
+                [ngbCollapse]="isCredentialsFormCollapsed && !SignUpForm.controls.firstName.invalid && !SignUpForm.controls.lastName.invalid &&
+                                                        !SignUpForm.controls.email.invalid &&!SignUpForm.controls.password.invalid">
+                <div class="row mb-3">
+                    <!-- <div *ngIf="SignUpForm.invalid && (SignUpForm.dirty)"
+                        class=" mx-auto text-danger border border-danger px-2 rounded-lg mb-2">Please enter compelete credentials</div> -->
+
+                    <div class="text-center text-danger rounded-lg mb-2 font-monospace"
+                        *ngIf="(SignUpForm.controls.firstName.dirty && SignUpForm.controls.firstName.invalid)">
+                        {{formsValidationMessages.formInvalidName}}
+                    </div>
+
+                    <input class="row  col-12 shadow-bottom bg-transparent" type="text" formControlName="firstName"
+                        placeholder="First Name" (blur)='validateAndCollapseForm()'>
+                </div>
+                <div class="row mb-3">
+                    <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                        *ngIf="(SignUpForm.controls.lastName.dirty && SignUpForm.controls.lastName.invalid)">
+                        {{formsValidationMessages.formInvalidName}}
+                    </div>
+                    <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="lastName"
+                        placeholder="Last Name" (blur)='validateAndCollapseForm()'>
+                </div>
+                <div class="row mb-3">
+                    <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                        *ngIf="(SignUpForm.controls.email.dirty && SignUpForm.controls.email.invalid)">
+                        {{formsValidationMessages.formInvalidEmail}}
+                    </div>
+                    <input class="row col-12 shadow-bottom bg-transparent" type="email" formControlName="email" placeholder="Email"
+                        (blur)='validateAndCollapseForm()'>
+                </div>
+                <div class="row mb-3">
+                    <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                        *ngIf="(SignUpForm.controls.password.touched && SignUpForm.controls.password.invalid)">
+                        {{formsValidationMessages.formMissingPassword}}
+                    </div>
+                    <input class="row  col-12 shadow-bottom bg-transparent" type="text" formControlName="password"
+                        placeholder="Password" (blur)='validateAndCollapseForm()'>
+                </div>
+            </div>
+
+            <div id='addresses' formArrayName='addresses'>
+
+                <div class="row mb-3">
+                    <button
+                        class="shadow-bottom  col-12 rounded rounded-pill row my-2 bg-secondary bg-gradient text-light btn"
+                        (click)="isShippingAddressFormCollpased=!isShippingAddressFormCollpased; isBillingAddresssFormCollapsed=true;isCredentialsFormCollapsed=true "
+                        [ngClass]="{'border-bottom-danger': isAddressFormInvalid(addressTypes.shipping)}">
+                        Shipping Address
+                    </button>
+                </div>
+                <!-- Shipping Address Form -->
+                <div id='shippingAddress' formGroupName='0'
+                    [ngbCollapse]=" isShippingAddressFormCollpased  || SignUpForm.controls.firstName.invalid || SignUpForm.controls.lastName.invalid ||
+                                                                SignUpForm.controls.email.invalid || SignUpForm.controls.password.invalid ">
+
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.shipping,'streetName','dirty') && getAddressControlProperty(addressTypes.shipping,'streetName','invalid'))">
+                            {{formsValidationMessages.formInvalidStreetName}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="streetName"
+                            placeholder="House number and Street name" (blur)='validateAndCollapseForm()'>
+                    </div>
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.shipping,'city','dirty') && getAddressControlProperty(addressTypes.shipping,'city','invalid'))">
+                            {{formsValidationMessages.formInvalidCity}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="city" placeholder="City"
+                            (blur)='validateAndCollapseForm()'>
+                    </div>
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.shipping,'country','dirty') && getAddressControlProperty(addressTypes.shipping,'country','invalid'))">
+                            {{formsValidationMessages.formInvalidCountry}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="country"
+                            placeholder="Country" (blur)='validateAndCollapseForm()'>
+                    </div>
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.shipping,'postalCode','dirty') && getAddressControlProperty(addressTypes.shipping,'postalCode','invalid'))">
+                            {{formsValidationMessages.formInvalidPostalCode}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="postalCode"
+                            placeholder="Zip Code" (blur)='validateAndCollapseForm()'>
+                    </div>
+
+
+                </div>
+                <div class="row mb-3">
+                    <button
+                        class="shadow-bottom  col-12 rounded rounded-pill row my-2 bg-secondary bg-gradient text-light btn"
+                        (click)="isBillingAddresssFormCollapsed=!isBillingAddresssFormCollapsed; 
+                                isShippingAddressFormCollpased=true;
+                                isCredentialsFormCollapsed=true"
+                        [ngClass]="{'border-bottom-danger':isAddressFormInvalid(addressTypes.billing)}">
+                        <span class="d-flex justify-content-end">
+                            <span class="">Billing Address</span>
+                        
+                            <div class="ms-5 small pt-1  ">
+                                
+                                <input class="form-check-input opacity-75" type="checkbox"  id="chkbx_SameAddress" [disabled]="isAddressFormInvalid(addressTypes.shipping)" (click)='sameAddressCheckBoxClick()'>
+                                <label class="form-check-label ms-1" for="chkbx_SameAddress">
+                                 Same 
+                                </label>
+                              </div>
+                        </span>
+                        
+                    </button>
+                </div>
+                <!-- Billing Address Form -->
+                <div id='billingAddress' formGroupName='1'
+                    [ngbCollapse]="isBillingAddresssFormCollapsed || isAddressFormInvalid(addressTypes.shipping) ">
+
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.billing,'streetName','dirty') && getAddressControlProperty(addressTypes.billing,'streetName','invalid'))">
+                            {{formsValidationMessages.formInvalidStreetName}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="streetName"
+                            placeholder="House number and Street name" (blur)='validateAndCollapseForm()'>
+                    </div>
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.billing,'city','dirty') && getAddressControlProperty(addressTypes.billing,'city','invalid'))">
+                            {{formsValidationMessages.formInvalidCity}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="city" placeholder="City"
+                            (blur)='validateAndCollapseForm()'>
+                    </div>
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.billing,'country','dirty') && getAddressControlProperty(addressTypes.billing,'country','invalid'))">
+                            {{formsValidationMessages.formInvalidCountry}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="country"
+                            placeholder="Country" (blur)='validateAndCollapseForm()'>
+                    </div>
+                    <div class="row mb-3">
+                        <div class=" text-center text-danger rounded-lg mb-2 font-monospace"
+                            *ngIf="(getAddressControlProperty(addressTypes.billing,'postalCode','dirty') && getAddressControlProperty(addressTypes.billing,'postalCode','invalid'))">
+                            {{formsValidationMessages.formInvalidPostalCode}}
+                        </div>
+                        <input class="row col-12 shadow-bottom bg-transparent" type="text" formControlName="postalCode"
+                            placeholder="Zip Code" (blur)='validateAndCollapseForm()'>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row mb-3 ">
+                        
+                <button
+                    class=" row col-12 shadow-bottom   rounded rounded-pill row my-2 bg-dark bg-gradient text-light  btn"
+                    type="submit" (click)='SignUp()' (keyup.enter)='SignUp()' [disabled]="SignUpForm.invalid">
+                    <mat-icon>login</mat-icon>
+                </button>
+                <button class="shadow-bottom  col-12 rounded rounded-pill row my-2 bg-dark bg-gradient text-light btn"
+                    type="reset">Clear</button>
+
+            </div>
+           
+        </form>
+        <div class="row ">
+            <button id="btn_signUp"
+                class="shadow-bottom  col-12 rounded rounded-pill row my-2 bg-gradient bg-dark  text-light  btn"
+                routerLink="/Login"><span class="text-uppercase">Login Instead !!!</span></button>
+        </div>
+    </div>
+
+
+</div>

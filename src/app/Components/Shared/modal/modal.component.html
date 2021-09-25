@@ -1,0 +1,18 @@
+<div id="modal-container">
+    <ng-template #mymodal let-modal>
+        
+        <div class="card app-gradient-background shadow-lg my-auto" style="width: 100%;">
+          <div class="card-body">
+            <div class="card-title">{{modalTitle}} 
+              <button (click)="modal.close()" class="onFocus-light font-monospace float-end ">x</button>
+            </div>
+            <h6 class="card-subtitle mb-2 text-muted">{{modalHeading}}</h6>
+            <p class="card-body">{{modalContent}}</p>
+            <button (click)="modal.close()" routerLink="/{{okayButtonRedirectComponent}}" class="onFocus-light font-monospace float-end ">Okay</button>
+          </div>
+        </div>
+        
+      </ng-template>
+</div>
+
+<button id="btn_open_modal" class="btn btn-outline-primary mt-5 visually-hidden" (click)="open(mymodal)">Open Modal</button>

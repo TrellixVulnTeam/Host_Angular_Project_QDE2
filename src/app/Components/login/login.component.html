@@ -1,0 +1,40 @@
+<div id="loginComponent" class="row vh-100 ">
+
+    <div class=" d-none d-md-inline-block col-md-8 bg-dark bg-gradient d-flex align-items-center text-center">
+        <div id="appName" class="display-4 ">SpringBoot Aws Test Front</div>
+    </div>
+
+    <div id="LogInFormDiv" class=" d-block d-md-block col-10 col-md-3  mx-auto my-md-auto ">
+        <div class=" d-inline-block d-md-none col-12 text-center">
+            <div id="appName" class="display-5 ">SpringBoot Front</div>
+        </div>
+        <mat-icon id = "accountIcon" class="mb-5 text-dark">perm_identity</mat-icon>
+        <form [formGroup]="LoginForm">
+            <div class="row mb-3">
+                <div *ngIf="LoginForm.controls.email.invalid && (LoginForm.controls.email.dirty)"
+                    class=" mx-auto text-danger text-center rounded-lg mb-2 font-monospace">{{formsValidationMessages.formInvalidEmail}}</div>
+                <input class="row ml-3 col-12 shadow-bottom bg-transparent" type="email" formControlName="email" placeholder="Email">
+            </div>
+            <div class="row mb-3">
+                <div *ngIf="LoginForm.controls.password.invalid && (LoginForm.controls.password.dirty)"
+                    class=" mx-auto text-danger text-center rounded-lg mb-2 font-monospace">{{formsValidationMessages.formMissingPassword}}</div>
+                <input class="row ml-3 col-12 shadow-bottom bg-transparent" type="password" formControlName="password"
+                    placeholder="Password">
+            </div>
+            <div class="row mb-3 ">
+                <button class="btn col-2 rounded rounded-pill mx-auto shadow-bottom " type="reset"><mat-icon>dangerous</mat-icon></button>
+                <button class="btn col-2 rounded rounded-pill mx-auto shadow-bottom " type="submit" (click)='login()' (keyup.enter)='login()'
+                    [disabled]='LoginForm.invalid'><mat-icon>login</mat-icon></button>
+
+            </div>
+        </form>
+        <div class="row ml-3">
+            <button id="btn_signUp" class="shadow-bottom col-12 rounded rounded-pill row my-2 bg-gradient bg-dark  text-light  btn"
+                routerLink="/SignUp"> Sign Up </button>
+                
+                    
+        </div>
+    </div>
+
+
+</div>
