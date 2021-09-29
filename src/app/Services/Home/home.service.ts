@@ -14,7 +14,7 @@ export class HomeService {
   {
     let userDetailsUrl=baseUrl+"users/"+localStorage.getItem("userId");    
 
-    return this.httpClient.get<UserResponseModel>(userDetailsUrl,{headers:{"Authorization":localStorage.getItem("token")}});
+    return this.httpClient.get<UserResponseModel>(userDetailsUrl);
   }
 
 }

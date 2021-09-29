@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import {MatIconModule} from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,7 @@ import { SignUpComponent } from './Components/sign-up/sign-up.component';
 import { HomeComponent } from './Components/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './Components/Shared/modal/modal.component';
+import { AddRequestsHeadersInterceptor } from './Interceptors/add-requests-headers.interceptor';
 
 
 
@@ -20,7 +21,7 @@ import { ModalComponent } from './Components/Shared/modal/modal.component';
     LoginComponent,
     SignUpComponent,
     HomeComponent,
-    ModalComponent
+    ModalComponent,
   ],
   imports: [
     NgbModule,
@@ -30,9 +31,15 @@ import { ModalComponent } from './Components/Shared/modal/modal.component';
     HttpClientModule,
     FormsModule,
     MatIconModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AddRequestsHeadersInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
